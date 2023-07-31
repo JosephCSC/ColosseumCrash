@@ -1,0 +1,31 @@
+package a3.actions;
+
+import a3.*;
+import tage.*;
+import tage.input.action.AbstractInputAction;
+import net.java.games.input.Event;
+import org.joml.*;
+
+public class TurnRAction extends AbstractInputAction
+{
+	private MyGame game;
+	private GameObject av;
+	private Camera c;
+	private Vector3f upVector, rightVector, fwdVector;
+	private ProtocolClient p;
+
+	public TurnRAction(MyGame g, ProtocolClient p)
+	{	game = g;
+		av = game.getAvatar();
+		this.p = p;
+	}
+
+	@Override
+	public void performAction(float time, Event e)
+	{	float keyValue = e.getValue();
+		if(keyValue<.2 && keyValue>-.2){return;}
+		av.yaw(-game.turnSpeed);
+		p.sendRotateMessage(av.getWorldRotation());
+	}
+}
+
